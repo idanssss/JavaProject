@@ -72,13 +72,15 @@ public class Window extends JFrame {
     // region Rendering Methods
 
     @Override
-    public void paint(Graphics g) {
-//        super.paint(g);
-//
-//        orderByRenderOrder();
-//
-//        for (UIElement el : elements)
-//            el.render(g);
+    public void paint(Graphics g) {}
+
+    @Override
+    public Graphics getGraphics() {
+        Graphics g =  super.getGraphics();
+
+        g.translate(getWidth()/2, getHeight()/2);
+
+        return g;
     }
 
     public void repaint() { draw(); }
@@ -86,19 +88,25 @@ public class Window extends JFrame {
     public void draw() {
         orderByRenderOrder();
 
-        for (UIElement el : elements) {
-            System.out.println("Drawing " + el.getRenderOrder());
-            el.render(getGraphics());
-        }
+        Graphics g = getGraphics();
+
+        for (UIElement el : elements)
+            draw(el, g);
     }
 
     public void draw(int renderOrder) {
         orderByRenderOrder();
 
+        Graphics g = getGraphics();
+
         for (UIElement el : elements) {
             if (el.getRenderOrder() == renderOrder)
-                el.render(getGraphics());
+                draw(el, g);
         }
+    }
+
+    public void draw(UIElement element, Graphics g) {
+        element.render(g);
     }
 
     // endregion

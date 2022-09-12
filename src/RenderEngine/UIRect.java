@@ -52,6 +52,10 @@ public class UIRect extends UIElement {
     @Override
     public void render(Graphics g) {
         g.setColor(color);
+
+        int x = getX() - getWidth()/2;
+        int y = getY() - getHeight()/2;
+
         g.fillRect(x, y, width, height);
     }
 
